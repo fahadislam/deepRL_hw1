@@ -10,8 +10,8 @@ import gym
 import time
 import deeprl_hw1.rl as rl
 
-def run_random_policy(env):
-    """Run a random policy for the given environment.
+def run_policy(env, policy):
+    """Run a policy for the given environment.
 
     Logs the total reward and the number of steps until the terminal
     state was reached.
@@ -35,10 +35,6 @@ def run_random_policy(env):
     total_reward = 0
     num_steps = 0
 
-    policy, value_func, iter_policy, iter_value = rl.policy_iteration(env, 0.9)
-    action_names = {lake_env.LEFT : 'L', lake_env.UP : 'U', lake_env.DOWN : 'D',  lake_env.RIGHT : 'R'}
-    rl.print_policy(policy, action_names)
-
     state = initial_state
     while True:
         nextstate, reward, is_terminal, debug_info = env.step(
@@ -53,6 +49,45 @@ def run_random_policy(env):
 
         time.sleep(1)
         state = nextstate
+
+    return total_reward, num_steps
+
+def run_random_policy(env):
+    """Run a random policy for the given environment.
+
+    Logs the total reward and the number of steps until the terminal
+    state was reached.
+
+    Parameters
+    ----------
+    env: gym.envs.Environment
+      Instance of an OpenAI gym.
+
+    Returns
+    -------
+    (float, int)
+      First number is the total undiscounted reward received. The
+      second number is the total number of actions taken before the
+      episode finished.
+    """
+    initial_state = env.reset()
+    env.render()
+    time.sleep(1)  # just pauses so you can see the output
+
+    total_reward = 0
+    num_steps = 0
+    while True:
+        nextstate, reward, is_terminal, debug_info = env.step(
+            env.action_space.sample())
+        env.render()
+
+        total_reward += reward
+        num_steps += 1
+
+        if is_terminal:
+            break
+
+        time.sleep(1)
 
     return total_reward, num_steps
 
@@ -77,9 +112,9 @@ def print_model_info(env, state, action):
 
 def main():
     # create the environment
-    env = gym.make('Deterministic-4x4-FrozenLake-v0')
+    # env = gym.make('FrozenLake-v0')
     # uncomment next line to try the deterministic version
-    # env = gym.make('Deterministic-4x4-FrozenLake-v0')
+    env = gym.make('Deterministic-4x4-FrozenLake-v0')
 
     print_env_info(env)
     print_model_info(env, 0, lake_env.DOWN)
@@ -87,8 +122,23 @@ def main():
     print_model_info(env, 14, lake_env.RIGHT)
 
     input('Hit enter to run a random policy...')
+    gamma = 0.9
+    ### random policy
+    # total_reward, num_steps = run_random_policy(env)
 
-    total_reward, num_steps = run_random_policy(env)
+    ### optimum policies
+    # policy iteration
+    # policy, value_func, iter_policy, iter_value = rl.policy_iteration(env, gamma9)
+
+    # value iteration
+    value_func, iter_value = rl.value_iteration(env, gamma)
+    policy = rl.value_function_to_policy(env, gamma, value_func)
+
+    action_names = {lake_env.LEFT : 'L', lake_env.UP : 'U', lake_env.DOWN : 'D',  lake_env.RIGHT : 'R'}
+    rl.print_policy(policy, action_names)
+    run_policy(env, policy)
+
+
     print('Agent received total reward of: %f' % total_reward)
     print('Agent took %d steps' % num_steps)
 

@@ -156,6 +156,14 @@ def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
 
 
 def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
+    
+    value_func = np.zeros(env.nS)
+
+    for loop in range(max_iterations):
+        for s in range(env.nS):
+            for a in range(env.nA):
+                v = sum((p[0] * (p[2] + gamma * value_func[p[1]])) for p in env.P[s][a])    #all possible transitions
+                value_func[s] = max(value_func[s],v)
     """Runs value iteration for a given gamma and environment.
 
     See page 90 (pg 108 pdf) of the Sutton and Barto Second Edition
@@ -180,7 +188,7 @@ def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
     np.ndarray, iteration
       The value function and the number of iterations it took to converge.
     """
-    return np.zeros(env.nS), 0
+    return value_func, loop
 
 
 def print_policy(policy, action_names):
