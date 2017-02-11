@@ -134,9 +134,9 @@ def main():
     value_func, iter_value = rl.value_iteration(env, gamma)
     policy = rl.value_function_to_policy(env, gamma, value_func)
 
-    action_names = {lake_env.LEFT : 'L', lake_env.UP : 'U', lake_env.DOWN : 'D',  lake_env.RIGHT : 'R'}
-    rl.print_policy(policy, action_names)
-    run_policy(env, policy)
+    # action_names = {lake_env.LEFT : 'L', lake_env.UP : 'U', lake_env.DOWN : 'D',  lake_env.RIGHT : 'R'}
+    rl.print_policy(policy, lake_env.action_names)
+    total_reward, num_steps = run_policy(env, policy)
 
 
     print('Agent received total reward of: %f' % total_reward)
