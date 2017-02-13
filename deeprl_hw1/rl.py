@@ -7,14 +7,14 @@ import numpy as np
 
 def evaluate_policy(env, gamma, policy, max_iterations=int(1e3), tol=1e-3):
     
-    V = np.zeros(env.nS)
-    # V_last = np.ones(env.nS)*100
+    value_func = np.zeros(env.nS)
+    value_func_last = np.ones(env.nS)*1000
     for i in range(max_iterations):
         for s in range(env.nS):
-            V[s] = sum([(p[0] * (p[2] + gamma * V[p[1]])) for p in env.P[s][policy[s]]])
-        # if np.linalg.norm(V[s]-V_last[s]) < tol:
-        #   break
-        # V_last = V
+            value_func[s] = sum([(p[0] * (p[2] + gamma * value_func[p[1]])) for p in env.P[s][policy[s]]])
+        if np.linalg.norm(value_func-value_func_last) < tol:
+          break
+        value_func_last = np.copy(value_func)
     """Evaluate the value of a policy.
 
     See page 87 (pg 105 pdf) of the Sutton and Barto Second Edition
@@ -40,7 +40,7 @@ def evaluate_policy(env, gamma, policy, max_iterations=int(1e3), tol=1e-3):
     np.ndarray
       The value for the given policy
     """
-    return i, V
+    return i, value_func
 
 
 def value_function_to_policy(env, gamma, value_function):
@@ -114,7 +114,7 @@ def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
     policy = np.zeros(env.nS, dtype='int')
     value_func = np.zeros(env.nS)
 
-    for loop in range(max_iterations):
+    for i in range(max_iterations):
         # evaluation
         iterations, value_func = evaluate_policy(env, gamma, policy)
 
@@ -152,18 +152,21 @@ def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
        Returns optimal policy, value function, number of policy
        improvement iterations, and number of value iterations.
     """
-    return policy, value_func, loop, iterations
+    return policy, value_func, i, iterations
 
 
 def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
     
     value_func = np.zeros(env.nS)
-
-    for loop in range(max_iterations):
+    value_func_last = np.ones(env.nS)*1000
+    for i in range(max_iterations):
         for s in range(env.nS):
             for a in range(env.nA):
                 v = sum((p[0] * (p[2] + gamma * value_func[p[1]])) for p in env.P[s][a])    #all possible transitions
                 value_func[s] = max(value_func[s],v)
+        if np.linalg.norm(value_func-value_func_last) < tol:
+          break
+        value_func_last = np.copy(value_func)
     """Runs value iteration for a given gamma and environment.
 
     See page 90 (pg 108 pdf) of the Sutton and Barto Second Edition
@@ -188,7 +191,7 @@ def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
     np.ndarray, iteration
       The value function and the number of iterations it took to converge.
     """
-    return value_func, loop
+    return value_func, i
 
 
 def print_policy(policy, action_names):
