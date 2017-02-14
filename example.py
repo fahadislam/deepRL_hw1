@@ -109,12 +109,16 @@ def print_model_info(env, state, action):
             '\tTransitioning to %s state %d with probability %f and reward %f'
             % (state_type, nextstate, prob, reward))
 
-
 def main():
     # create the environment
     # env = gym.make('FrozenLake-v0')
     # uncomment next line to try the deterministic version
-    env = gym.make('Deterministic-4x4-FrozenLake-v0')
+
+    # env = gym.make('Deterministic-4x4-FrozenLake-v0')
+    # env = gym.make('Deterministic-8x8-FrozenLake-v0')
+    # env = gym.make('Stochastic-4x4-FrozenLake-v0')
+    # env = gym.make('Stochastic-8x8-FrozenLake-v0')
+    env = gym.make('Deterministic-4x4-neg-reward-FrozenLake-v0')
 
     print_env_info(env)
     print_model_info(env, 0, lake_env.DOWN)
@@ -122,22 +126,26 @@ def main():
     print_model_info(env, 14, lake_env.RIGHT)
 
     input('Hit enter to run a random policy...')
+    # method = 0  # policy iteration
+    method = 1  # value iteration
     gamma = 0.9
     ### random policy
     # total_reward, num_steps = run_random_policy(env)
 
-    ### optimum policies
-    # policy iteration
-    # policy, value_func, iter_policy, iter_value = rl.policy_iteration(env, gamma9)
+    start_time = time.time()
 
-    # value iteration
-    value_func, iter_value = rl.value_iteration(env, gamma)
-    policy = rl.value_function_to_policy(env, gamma, value_func)
+    if method == 0:
+        policy, value_func, iter_policy, iter_value = rl.policy_iteration(env, gamma)
+        print(value_func)
+    else:
+        value_func, iter_value = rl.value_iteration(env, gamma)
+        print(value_func)
+        policy = rl.value_function_to_policy(env, gamma, value_func)
 
-    # action_names = {lake_env.LEFT : 'L', lake_env.UP : 'U', lake_env.DOWN : 'D',  lake_env.RIGHT : 'R'}
     rl.print_policy(policy, lake_env.action_names)
-    total_reward, num_steps = run_policy(env, policy)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
+    total_reward, num_steps = run_policy(env, policy)
 
     print('Agent received total reward of: %f' % total_reward)
     print('Agent took %d steps' % num_steps)

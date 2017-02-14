@@ -11,10 +11,17 @@ def evaluate_policy(env, gamma, policy, max_iterations=int(1e3), tol=1e-3):
     value_func_last = np.ones(env.nS)*1000
     for i in range(max_iterations):
         for s in range(env.nS):
-            value_func[s] = sum([(p[0] * (p[2] + gamma * value_func[p[1]])) for p in env.P[s][policy[s]]])
+            v = 0
+            for p in env.P[s][policy[s]]:
+                if p[3] == False:
+                    v += p[0] * (p[2] + gamma * value_func[p[1]])
+                else:
+                    v += p[0] * p[2]
+            value_func[s] = v
         if np.linalg.norm(value_func-value_func_last) < tol:
           break
         value_func_last = np.copy(value_func)
+
     """Evaluate the value of a policy.
 
     See page 87 (pg 105 pdf) of the Sutton and Barto Second Edition
@@ -110,9 +117,7 @@ def improve_policy(env, gamma, value_func, policy):
 
 def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
 
-    # actions = [lake_env.LEFT, lake_env.DOWN, lake_env.RIGHT, lake_env.UP]
     policy = np.zeros(env.nS, dtype='int')
-    value_func = np.zeros(env.nS)
 
     for i in range(max_iterations):
         # evaluation
@@ -162,8 +167,13 @@ def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
     for i in range(max_iterations):
         for s in range(env.nS):
             for a in range(env.nA):
-                v = sum((p[0] * (p[2] + gamma * value_func[p[1]])) for p in env.P[s][a])    #all possible transitions
-                value_func[s] = max(value_func[s],v)
+                v = 0
+                for p in env.P[s][a]:
+                    if p[3] == False:
+                        v += p[0] * (p[2] + gamma * value_func[p[1]])
+                    else:
+                        v += p[0] * p[2]
+                    value_func[s] = max(value_func[s],v)
         if np.linalg.norm(value_func-value_func_last) < tol:
           break
         value_func_last = np.copy(value_func)
