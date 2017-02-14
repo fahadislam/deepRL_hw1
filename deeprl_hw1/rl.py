@@ -47,7 +47,7 @@ def evaluate_policy(env, gamma, policy, max_iterations=int(1e3), tol=1e-3):
     np.ndarray
       The value for the given policy
     """
-    return i, value_func
+    return value_func
 
 
 def value_function_to_policy(env, gamma, value_function):
@@ -121,7 +121,7 @@ def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
 
     for i in range(max_iterations):
         # evaluation
-        iterations, value_func = evaluate_policy(env, gamma, policy)
+        value_func = evaluate_policy(env, gamma, policy)
 
         # improvement
         is_improved, policy = improve_policy(env, gamma, value_func, policy)
@@ -157,7 +157,7 @@ def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
        Returns optimal policy, value function, number of policy
        improvement iterations, and number of value iterations.
     """
-    return policy, value_func, i, iterations
+    return policy, value_func, i
 
 
 def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
