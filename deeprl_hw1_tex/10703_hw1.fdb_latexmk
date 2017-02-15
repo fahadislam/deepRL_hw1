@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1486938699 "10703_hw1.tex" "10703_hw1.pdf" "10703_hw1" 1486938701
+["pdflatex"] 1487187153 "10703_hw1.tex" "10703_hw1.pdf" "10703_hw1" 1487187155
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1246382020 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1246382020 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -191,12 +191,12 @@
   "/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1472697456 1888048 f2c5faed5981a516f406b2ccc20bff71 ""
   "/usr/local/texlive/2016/texmf-var/web2c/pdftex/pdflatex.fmt" 1463979169 3873397 413fbfbbedb8e719ddc392043a7add02 ""
   "/usr/local/texlive/2016/texmf.cnf" 1463979140 577 2938757e76f31531e65cc647e3507693 ""
-  "10703_hw1.aux" 1486938700 2335 749ce030f83eea097f62ed60f2f58c88 ""
-  "10703_hw1.out" 1486938700 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "10703_hw1.tex" 1486938699 27297 8eac3a9075426a251aa09eb9841042ec ""
+  "10703_hw1.aux" 1487187155 2335 749ce030f83eea097f62ed60f2f58c88 ""
+  "10703_hw1.out" 1487187154 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "10703_hw1.tex" 1487187152 27416 f0d4c21ff27f40a1d7bfe8f79fd40044 ""
   "figures/value_function_plot.png" 1486499141 24249 69056d88355430b0c5c23964f6df0c94 ""
   (generated)
-  "10703_hw1.aux"
   "10703_hw1.pdf"
-  "10703_hw1.out"
   "10703_hw1.log"
+  "10703_hw1.out"
+  "10703_hw1.aux"

@@ -9,6 +9,9 @@ import deeprl_hw1.lake_envs as lake_env
 import gym
 import time
 import deeprl_hw1.rl as rl
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 def run_policy(env, policy):
     """Run a policy for the given environment.
@@ -109,12 +112,16 @@ def print_model_info(env, state, action):
             '\tTransitioning to %s state %d with probability %f and reward %f'
             % (state_type, nextstate, prob, reward))
 
-
 def main():
     # create the environment
     # env = gym.make('FrozenLake-v0')
     # uncomment next line to try the deterministic version
-    env = gym.make('Deterministic-4x4-FrozenLake-v0')
+
+    # env = gym.make('Deterministic-4x4-FrozenLake-v0')
+    env = gym.make('Deterministic-8x8-FrozenLake-v0')
+    # env = gym.make('Stochastic-4x4-FrozenLake-v0')
+    # env = gym.make('Stochastic-8x8-FrozenLake-v0')
+    # env = gym.make('Deterministic-4x4-neg-reward-FrozenLake-v0')
 
     print_env_info(env)
     print_model_info(env, 0, lake_env.DOWN)
@@ -126,18 +133,38 @@ def main():
     ### random policy
     # total_reward, num_steps = run_random_policy(env)
 
-    ### optimum policies
+    start_time = time.time()
+
     # policy iteration
-    # policy, value_func, iter_policy, iter_value = rl.policy_iteration(env, gamma9)
+    # policy, value_func, steps = rl.policy_iteration(env, gamma)
+    # print(steps)
 
     # value iteration
     value_func, iter_value = rl.value_iteration(env, gamma)
     policy = rl.value_function_to_policy(env, gamma, value_func)
 
-    # action_names = {lake_env.LEFT : 'L', lake_env.UP : 'U', lake_env.DOWN : 'D',  lake_env.RIGHT : 'R'}
-    rl.print_policy(policy, lake_env.action_names)
-    total_reward, num_steps = run_policy(env, policy)
+    # results
+    value_matrix = np.reshape(value_func,(-1,8))
+    print(value_matrix)
+    cmap = mpl.colors.LinearSegmentedColormap.from_list('my_colormap',
+                                       ['blue','green','yellow'],
+                                       256)
 
+    bounds=[value_matrix.min(),value_matrix.min(),value_matrix.max(),value_matrix.max()]
+    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)
+    img = plt.imshow(value_matrix,interpolation='nearest',
+                        cmap = cmap)
+    
+    # make a color bar
+    # plt.colorbar(img,cmap=cmap,
+    #                 norm=norm,boundaries=bounds,ticks=[-5,0,5])
+    
+    plt.show()    
+
+    rl.print_policy(policy, lake_env.action_names)
+    print("--- %s seconds ---" % (time.time() - start_time))
+
+    total_reward, num_steps = run_policy(env, policy)
 
     print('Agent received total reward of: %f' % total_reward)
     print('Agent took %d steps' % num_steps)
