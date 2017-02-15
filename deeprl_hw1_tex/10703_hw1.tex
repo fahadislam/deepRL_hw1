@@ -11,6 +11,8 @@
 \usepackage{tikz}
 \usepackage{tikzsymbols}
 \usepackage{todonotes}
+\usepackage{breqn}
+\usepackage{amsmath}
 
 \usetikzlibrary{chains,arrows}
 \usetikzlibrary{positioning,calc}
@@ -662,16 +664,169 @@ arbitrary initial value function $V _0 \in \mathbb R ^ { S }$.
     $\mathcal F ^* V = V$ and $\mathcal F ^* V ' = V '$ 
     for two value functions $V, V' \in \mathbb R ^S$, 
     then $V = V'$, i.e., $V(s) = V'(s)$ for all $s \in S$.
+
+    \textbf{Solution:}
+
+    Since we know that 
+    \begin{equation}
+       V ^*(s) = \max _{a \in A} 
+    \left(
+      \sum _{s' \in S} 
+        P(s' | s, a) \left(
+          R (s, a, s') + \gamma V ^*( s' )
+        \right)
+    \right) 
+    \end{equation}
+
+    And we also know that:
+
+    \begin{equation}
+  \mathcal F ^* V (s) 
+    = \max _{a \in A} 
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V ( s' )
+          \right)
+      \right)
+    \end{equation}
+
+    Then, by applying the $F ^*$ operator to $V^*$ we have:
+
+    \begin{equation}
+       \mathcal F ^* V^* (s) 
+    = \max _{a \in A} 
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V^* ( s' )
+          \right)
+      \right) \triangleq V^*
+    \end{equation}
+
+    Therefore, we proved that $\mathcal F ^* V ^* = V ^*$
+
+    Now, for the second proof, if we have:
+
+\begin{equation}
+       \mathcal F ^* V (s) 
+    = \max _{a \in A} 
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V ( s' )
+          \right)
+      \right)
+    \end{equation}
+
+    Then by the definition of the optimal policy, $V=V^*$. Analogously, $V'=V^*$. Therefore, $V=V'$ because the optimal policy is unique.
+
+
   \item Prove that $(\mathcal F ^*) ^ k V _0$ converges to $V ^*$ as $k \to \infty$
     for any $V _0 \in \mathbb R ^ S$. 
     Consider convergence in max-norm. The max-norm of a vector 
     $u \in \mathbb R ^d $ is defined as  
     ${ || u || } _\infty = \max _{i \in \{1, \ldots, d \} }{ | u _i | }$. 
+
+    \textbf{Solution:}
+
+    To prove the convergence of $(\mathcal F ^*) ^ k V _0$ to $V^*$ as $k \to \infty$, we consider the maximum norm of the difference of both terms:
+
+    \begin{equation}
+      \lim_{k \to \infty} ||V_{k+1}-V^*||_{\infty} = ||(F^*)V_{k}-V^*||_{\infty}
+    \end{equation}
+    
+    First, let's look at the value of:
+
+    \begin{equation}
+    \begin{split}
+      |(F^*)V_k-V^*|=
+      |\max _{a \in A} 
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V_k ( s' )
+          \right)
+      \right) \\ - 
+      \max _{a \in A} 
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V^* ( s' )
+          \right)
+      \right)|
+      \leqslant
+      \max _{a \in A}| 
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V_k ( s' )
+          \right)
+      \right) \\ -  
+      \left(
+        \sum _{s' \in S} 
+          P(s' | s, a) \left(
+            R (s, a, s') + \gamma V^* ( s' )
+          \right)
+      \right)|
+      =
+      \max _{a \in A}
+      \gamma
+        \sum _{s' \in S} 
+          P(s' | s, a) |
+            V_k (s')- V^* ( s') |
+      \end{split}
+    \end{equation}
+
+Continuing: 
+
+\begin{equation}
+ \begin{split}
+        \max _{a \in A}
+      \gamma
+        \sum _{s' \in S} 
+          P(s' | s, a) |
+            V_k (s')- V^* ( s') |
+      \leqslant
+  \max _{a \in A}
+      \gamma
+        \sum _{s' \in S} 
+          P(s' | s, a) ||
+            V_k (s')- V^* ( s') ||_{\infty}
+    \newline \\
+    =\gamma ||V_k (s')- V^* ( s') ||_{\infty} \max _{a \in A}\sum _{s' \in S} P(s' | s, a)
+            \end{split}
+    % \newline \\
+\end{equation}
+
+$= \gamma ||V_k (s')- V^* ( s') ||_{\infty}$
+
+Therefore, we have the following inequality:
+
+\begin{equation}
+  ||(F^*) V_k - V^*||_{\infty} \leqslant \gamma ||V_k - V^*||_{\infty}
+\end{equation}
+
+Recursively, if we apply $(F^*)$ $k$ times we have:
+
+\begin{equation}
+  ||(F^*)^k V_0 - V^*||_{\infty} \leqslant \gamma^{k+1} ||V_0 - V^*||_{\infty}
+\end{equation}
+
+As $k \to \infty$, $\gamma^{k+1} \to 0$, and we prove that $\lim_{k \to \infty} ||(F^*)^{k+1}V_{k}-V^*||_{\infty} = 0$
+
   \item Given the optimal value function $V ^*$ 
     write down the expression that recovers the optimal policy $\pi ^*$ as a 
     function of $V ^*$ and the parameters of $M$.
     \footnote{Actually, such a procedure works for any value function $V \in \mathbb R ^S$. 
     This procedure is called policy extraction.}
+
+    \textbf{Solution:}
+
+\begin{equation}
+  \pi^*= argmax_{a \in A} \sum_{s'} P^a_{s,s'} (R^a_{s,s'} + \gamma V^*(s'))
+\end{equation}
+    
 \end{enumerate}
 
 % some comments about what is important and is not important. 

@@ -206,6 +206,14 @@ INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libr
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/tools/calc.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/tools/calc.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/breqn.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/breqn.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/flexisym.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/flexisym.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/cmbase.sym
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/cmbase.sym
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/mathstyle.sty
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/breqn/mathstyle.sty
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarychains.code.tex
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarychains.code.tex
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
@@ -320,4 +328,5 @@ INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pf
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
