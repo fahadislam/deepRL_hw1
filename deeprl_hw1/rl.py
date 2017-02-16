@@ -7,7 +7,7 @@ import numpy as np
 
 def evaluate_policy(env, gamma, policy, max_iterations=int(1e3), tol=1e-3):
     
-    value_func = np.zeros(env.nS)
+    value_func = np.ones(env.nS)*-100
     value_func_last = np.ones(env.nS)*1000
     for i in range(max_iterations):
         for s in range(env.nS):
@@ -162,7 +162,7 @@ def policy_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
 
 def value_iteration(env, gamma, max_iterations=int(1e3), tol=1e-3):
     
-    value_func = np.zeros(env.nS)
+    value_func = np.ones(env.nS)*-100
     value_func_last = np.ones(env.nS)*1000
     for i in range(max_iterations):
         for s in range(env.nS):
